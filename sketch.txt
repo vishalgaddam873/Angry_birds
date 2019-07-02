@@ -1,0 +1,35 @@
+const { Engine, World, Bodies, Mouse, MouseConstraint, Constraint } = Matter;
+const CANVAS_WIDTH = 400,
+      CANVAS_HEIGHT = 320;
+
+var engine, world;
+var ground;
+var box;
+function setup(){
+  const canvas =  createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+  engine = Engine.create();
+  world = engine.world;
+
+  var ground_options = {
+    isStatic:true
+  }
+  ground = Bodies.rectangle(200, height, width, 100, ground_options)
+  World.add(world, ground);
+
+  var box_options = {
+    restitution : 1.0
+  }
+  box = Bodies.rectangle(150, 100, 50, 50, box_options)
+  World.add(world, box)
+}
+
+function draw(){
+  background(0);
+  Matter.Engine.update(engine);
+  noStroke(255);
+  fill(170);
+  rectMode(CENTER);
+  rect(ground.position.x, ground.position.y, width, 100);
+  rect(box.position.x, box.position.y, 50, 50);
+
+}
