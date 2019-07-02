@@ -23,7 +23,7 @@ function setup(){
 
   square2 = new Obstacle(width-150,height-80,80,80);
 
-  rect1 = new Obstacle(width-250,height-120,280,10);
+  rect1 = new Obstacle(width-250,height-120,280,15);
 
   square3 = new Obstacle(width-350,height-125,80,80);
 
@@ -31,13 +31,13 @@ function setup(){
 
   square4 = new Obstacle(width-150,height-125,80,80);
 
-  rect2 = new Obstacle(width-250,height-225,280,10);
+  rect2 = new Obstacle(width-250,height-225,280,15);
 
   square5 = new Obstacle(width-250,height-250,80,80);
 
-  rect3 = new Obstacle(width-190, 200,150,10)
+  rect3 = new Obstacle(width-320, height-250,15,150)
 
-  rect4= new Obstacle(width-330,200,150,10);
+  rect4= new Obstacle(width-180,height-250,15,150);
 
 }
 
@@ -62,7 +62,7 @@ function draw(){
   rect2.show();
 
   square5.show();
-  rect3.body.angle = 4.01426
+  rect3.body.angle = 3.83972
   rect3.show();
   rect4.body.angle = 2.61799
   rect4.show();
