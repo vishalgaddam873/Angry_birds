@@ -1,10 +1,10 @@
-const { Engine, World, Bodies, Mouse, MouseConstraint, Constraint } = Matter;
-const CANVAS_WIDTH = 400,
-      CANVAS_HEIGHT = 320;
+const { Engine, World, Bodies, Body} = Matter;
+const CANVAS_WIDTH = 600,
+      CANVAS_HEIGHT = 400;
 
 var engine, world;
 var ground;
-var box;
+var obstacle1, obstacle2;
 function setup(){
   const canvas =  createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
   engine = Engine.create();
@@ -13,7 +13,7 @@ function setup(){
   var ground_options = {
     isStatic:true
   }
-  ground = Bodies.rectangle(200, height, width, 100, ground_options)
+  ground = Bodies.rectangle(width/2, height, width, 100, ground_options)
   World.add(world, ground);
 
   var box_options = {
@@ -21,6 +21,10 @@ function setup(){
   }
   box = Bodies.rectangle(150, 100, 50, 50, box_options)
   World.add(world, box)
+
+  obstacle1 = new Obstacle(200,10,40,80);
+  obstacle2 = new Obstacle(190,130,40,80);
+
 }
 
 function draw(){
@@ -30,6 +34,8 @@ function draw(){
   fill(170);
   rectMode(CENTER);
   rect(ground.position.x, ground.position.y, width, 100);
-  rect(box.position.x, box.position.y, 50, 50);
+
+  obstacle1.show();
+  obstacle2.show();
 
 }
