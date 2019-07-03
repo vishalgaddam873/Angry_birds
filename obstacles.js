@@ -1,5 +1,5 @@
 class Obstacle {
-  constructor(x, y, width, height) {
+  constructor(x, y, width, height, obstacleImage) {
     var options = {
         'density' : 1.3,
         'friction': 1.0,
@@ -8,6 +8,7 @@ class Obstacle {
     this.body = Bodies.rectangle(x, y, width, height, options);
     this.width = width;
     this.height = height;
+    this.obstacleImage = obstacleImage;
     World.add(world, this.body);
   }
   show(){
@@ -16,11 +17,8 @@ class Obstacle {
     push();
     translate(pos.x, pos.y);
     rotate(angle);
-    strokeWeight(4);
-    stroke("green");
-    fill(255);
-    rectMode(CENTER);
-    rect(0, 0, this.width, this.height);
+    imageMode(CENTER);
+    image(this.obstacleImage,0, 0, this.width, this.height);
     pop();
   }
 };

@@ -1,13 +1,14 @@
 class Enemy {
-  constructor(x, y, width, height) {
+  constructor(x, y, width, height,enemyImage) {
     var options = {
-      'density':0.3,
-      'friction':0.3,
-      'restitution' : 0.3
+      'density':1.3,
+      'friction':1.0,
+      'restitution' : 0.5
     }
     this.body = Bodies.rectangle(x, y, width, height, options);
     this.width = width;
     this.height = height;
+    this.enemyImage = enemyImage;
     World.add(world, this.body);
   }
   show(){
@@ -17,9 +18,8 @@ class Enemy {
     push();
     translate(pos.x, pos.y);
     rotate(angle);
-    rectMode(CENTER)
-    fill("red")
-    rect(0,0,this.width, this.height)
+    imageMode(CENTER)
+    image(this.enemyImage,0,0,this.width, this.height)
     pop();
   }
 }
