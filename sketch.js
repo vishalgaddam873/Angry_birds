@@ -14,7 +14,7 @@ function setup(){
   engine = Engine.create();
   world = engine.world;
 
-  // Createing ground
+  // Ground object
   ground = new Ground(width/2, height, width, 50);
 
   // Base for obstacles in brown color
@@ -55,13 +55,6 @@ function setup(){
 
   // Bird Object
   bird = new Bird(50,height-400,50,50);
-  var canvasMouse = Mouse.create(canvas.elt)
-  var options = {
-    mouse : canvasMouse
-  }
-  canvasMouse.pixelRatio = 2;
-  mConstraint = MouseConstraint.create(engine, options)
-  World.add(world, mConstraint )
 }
 
 function draw(){
