@@ -1,8 +1,9 @@
 class Obstacle {
   constructor(x, y, width, height, obstacleImage) {
     var options = {
-        'density' : 1.3,
-        'friction': 1.0,
+        'density' : 0.3,
+        'friction' : 1.0,
+        'frictionStatic': 1.0,
         'restitution':0.5
     }
     this.body = Bodies.rectangle(x, y, width, height, options);
@@ -17,6 +18,7 @@ class Obstacle {
     push();
     translate(pos.x, pos.y);
     rotate(angle);
+    rectMode(CENTER);
     imageMode(CENTER);
     image(this.obstacleImage,0, 0, this.width, this.height);
     pop();

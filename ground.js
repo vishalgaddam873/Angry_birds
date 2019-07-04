@@ -17,6 +17,7 @@ class Ground {
     push();
     translate(pos.x, pos.y)
     rotate(angle);
+    rectMode(CENTER);
     imageMode(CENTER);
     image(this.groundImage,0,0,this.width, this.height)
     pop()

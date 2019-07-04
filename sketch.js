@@ -1,6 +1,6 @@
 const { Engine, World, Bodies, Body, Mouse, MouseConstraint, Constraint} = Matter;
-const CANVAS_WIDTH = 720,
-      CANVAS_HEIGHT = 520;
+const CANVAS_WIDTH = 1280,
+      CANVAS_HEIGHT = 720;
 
 var engine, world;
 var ground, base; // All static bodies
@@ -9,6 +9,9 @@ var rect1, rect2, rect3, rect4; // Recatngle obstacles objects
 var enemy1, enemy2; // Enemy objects
 var bird; //Bird object
 var bgImage,groundImage, baseImage, birdImage, squareWood, rectWood, enemyImage; // All Sprite's
+var mConstraint;
+var slingshot;
+
 
 function preload(){
   bgImage = loadImage('sprites/bg.png');
@@ -18,6 +21,7 @@ function preload(){
   squareWood = loadImage('sprites/wood1.png');
   rectWood = loadImage('sprites/wood2.png');
   enemyImage = loadImage('sprites/enemy.png');
+  platformImage = loadImage('sprites/platform.png')
 }
 
 function setup(){
@@ -66,7 +70,22 @@ function setup(){
 
   // Bird Object
   bird = new Bird(50,height-400,50,50,birdImage);
+
+
+  console.log(bird.body);
+  slingshot = new SlingShot(width/2 - 300, height-150, bird.body);
+
+  const mouse = Mouse.create(canvas.elt);
+  const options = {
+    mouse: mouse,
+  }
+
+  // A fix for HiDPI displays
+  mouse.pixelRatio = pixelDensity();
+  mConstraint = MouseConstraint.create(engine, options);
+  World.add(world, mConstraint);
 }
+
 
 function draw(){
   background(bgImage);
@@ -89,10 +108,26 @@ function draw(){
   rect2.show();
 
   square5.show();
-  rect3.body.angle = 3.83972
+  rect3.body.angle = 3.83972 // 220 Degree
   rect3.show();
-  rect4.body.angle = 2.61799
+  rect4.body.angle = 2.61799 // 150 Degree
   rect4.show();
 
+  slingshot.show();
   bird.show();
+}
+
+function mouseReleased() {
+  setTimeout(() => {
+    slingshot.fly();
+  }, 100);
+}
+
+function keyPressed() {
+  if (key == ' ') {
+    World.remove(world, bird.body);
+    bird = new Bird(50,height-400,50,50,birdImage);
+    slingshot.attach(bird.body);
+  }
+
 }

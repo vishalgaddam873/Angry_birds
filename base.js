@@ -17,6 +17,7 @@ class Base {
     push();
     translate(pos.x, pos.y)
     rotate(angle);
+    rectMode(CENTER);
     imageMode(CENTER);
     image(this.baseImage,0,0,this.width, this.height)
     pop()
