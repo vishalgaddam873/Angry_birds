@@ -1,13 +1,7 @@
-class Base {
+class Base extends Ground {
   constructor(x, y, width, height,baseImage) {
-    var options ={
-      isStatic : true
-    }
-    this.body = Bodies.rectangle(x,y, width, height, options);
-    this.width = width;
-    this.height = height;
+    super(x, y, width, height);
     this.baseImage = baseImage;
-    World.add(world, this.body);
   };
 
   show(){
