@@ -1,6 +1,6 @@
 const { Engine, World, Bodies, Body, Mouse, MouseConstraint, Constraint} = Matter;
-const CANVAS_WIDTH = 640,
-      CANVAS_HEIGHT = 520;
+const CANVAS_WIDTH = 1280,
+      CANVAS_HEIGHT = 720;
 
 var engine, world;
 var ground, base; // All static bodies
