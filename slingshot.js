@@ -7,7 +7,7 @@ class SlingShot {
       },
       bodyB: body,
       stiffness: 0.02,
-      length: 5
+      length: 40
     }
     this.sling = Constraint.create(options);
     World.add(world, this.sling);
@@ -20,11 +20,12 @@ class SlingShot {
 
   show() {
     if (this.sling.bodyB) {
-      stroke(0);
+      stroke("#301A03");
       strokeWeight(4);
       const posA = this.sling.pointA;
       const posB = this.sling.bodyB.position;
-      line(posA.x, posA.y, posB.x, posB.y);
+      // line(posA.x, posA.y, posB.x, posB.y);
+
     }
   }
 
