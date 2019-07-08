@@ -12,7 +12,7 @@ var bgImage,groundImage, baseImage, birdImage, boxWood, logWood, enemyImage; // 
 var mConstraint;
 var slingshot;
 var platform, platformImage; // Platform object
-var slingImage1, slingImage2, slingImage3 //Sling and Catapult
+var slin1, sling2, slingImage1, slingImage2, slingImage3 //Sling and Catapult
 var value = false;
 
 function preload(){
@@ -74,11 +74,14 @@ function setup(){
   log4= new Log(width-180,height-250,150, -PI/7,logWood);
 
   // Bird Object
-  bird = new Bird(160,100,50,50,birdImage);
+  bird = new Bird(270,225,50,50,birdImage);
 
-
+  // Catapult
+  sling1 = new Catapult(270,300,8, 2, slingImage1); // Octagon
+  sling2  = new Catapult(244,255, 6, 2, slingImage2); // Hexagon
   // SlingShot for catapult
-  slingshot = new SlingShot(250, 230, bird.body);
+  slingshot = new SlingShot(270, 225, bird.body);
+
 
   const mouse = Mouse.create(canvas.elt);
   const options = {
@@ -120,21 +123,19 @@ function draw(){
   log4.show();
 
   platform.show();
-  slingshot.show();
 
-  image(slingImage1, 250, 267, 30, 130);
+
+  sling1.show();
   bird.show();
-  image(slingImage2, 230, 263, 30, 80)
+
 
   if(mousePressed){
     if(value == true){
-      stroke("#301A03")
-      strokeWeight(5)
-      line(mouseX, mouseY, 263,287)
-      line(mouseX-3,mouseY+5,235,283)
-      image(slingImage3, mouseX-10, mouseY-10,20,20)
+      slingshot.show();
     }
   }
+  sling2.show();
+
 
 }
 
@@ -143,6 +144,8 @@ function mouseReleased() {
   setTimeout(() => {
     slingshot.fly();
   }, 100);
+
+  slingshot.destroy()
 }
 
 function mousePressed(){

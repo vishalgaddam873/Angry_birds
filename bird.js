@@ -6,10 +6,7 @@ class Bird {
       "restitution" : 0.8
     }
     this.body = Bodies.rectangle(x,y,width,height,options)
-    // var translation = {}
-    // translation.x = -5;
-    // translation.y = -15;
-    Body.rotate(this.body, 20)
+
     this.birdImage = birdImage;
     World.add(world, this.body);
   };
