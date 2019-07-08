@@ -14,7 +14,7 @@ var slingshot;
 var platform, platformImage; // Platform object
 var slin1, sling2, slingImage1, slingImage2, slingImage3 //Sling and Catapult
 var pressed = false;
-var realeased = false;
+var released = false;
 var smokeImage;
 var bird_pos = []
 // var projectile;
@@ -133,32 +133,29 @@ function draw(){
   sling1.show();
   bird.show();
 
-
   if(mousePressed){
     if(pressed == true){
       slingshot.show();
     }
   }
+
   sling2.show();
+
   if(mouseReleased){
-    if(realeased == true){
+    if(released == true){
       bird_pos.push(bird.body.position);
       var num = 20;
       for(let i = 0; i<bird_pos.length; i++){
-          noStroke();
-          fill("white")
           image(smokeImage,bird_pos[i].x-(num), bird_pos[i].y-num, 10,10)
           num+=40
       }
     }
   }
-
-
 }
 
 function mouseReleased() {
   pressed = false;
-  realeased = true;
+  released = true;
   setTimeout(() => {
     slingshot.fly();
   }, 100);
