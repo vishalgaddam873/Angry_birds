@@ -13,7 +13,11 @@ var mConstraint;
 var slingshot;
 var platform, platformImage; // Platform object
 var slin1, sling2, slingImage1, slingImage2, slingImage3 //Sling and Catapult
-var value = false;
+var pressed = false;
+var realeased = false;
+var smokeImage;
+var bird_pos = []
+// var projectile;
 
 function preload(){
   bgImage = loadImage('sprites/bg.png');
@@ -27,6 +31,7 @@ function preload(){
   slingImage1 = loadImage('sprites/sling1.png');
   slingImage2 = loadImage('sprites/sling2.png');
   slingImage3 = loadImage('sprites/sling3.png');
+  smokeImage = loadImage('sprites/smoke.png');
 }
 
 function setup(){
@@ -130,26 +135,37 @@ function draw(){
 
 
   if(mousePressed){
-    if(value == true){
+    if(pressed == true){
       slingshot.show();
     }
   }
   sling2.show();
+  if(mouseReleased){
+    if(realeased == true){
+      bird_pos.push(bird.body.position);
+      var num = 20;
+      for(let i = 0; i<bird_pos.length; i++){
+          noStroke();
+          fill("white")
+          image(smokeImage,bird_pos[i].x-(num), bird_pos[i].y-num, 10,10)
+          num+=40
+      }
+    }
+  }
 
 
 }
 
 function mouseReleased() {
-  value = false;
+  pressed = false;
+  realeased = true;
   setTimeout(() => {
     slingshot.fly();
   }, 100);
-
-  slingshot.destroy()
 }
 
 function mousePressed(){
-  value = true;
+  pressed = true;
 }
 
 function keyPressed() {
