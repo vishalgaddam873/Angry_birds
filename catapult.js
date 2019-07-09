@@ -4,7 +4,6 @@ class Catapult {
       isStatic : true
     };
     this.body = Bodies.polygon(x, y, sides, radius, options);
-    console.log(this.body);
     World.add(world, this.body);
     this.sides = sides;
     this.radius = radius;

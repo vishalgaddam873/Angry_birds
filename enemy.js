@@ -3,6 +3,10 @@ class Enemy extends Obstacle{
     super(x, y, width, height);
     this.enemyImage = enemyImage;
   }
+  removeFromWorld(){
+        
+    World.remove(world, this.body);
+  }
   show(){
     var pos = this.body.position;
     var angle = this.body.angle;
