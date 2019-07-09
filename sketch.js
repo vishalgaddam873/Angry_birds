@@ -49,7 +49,7 @@ function setup(){
   box1 = new Obstacle(width-350,height-80,80,80,boxWood);
 
   // Lower Middle Enemy
-  enemy1 = new Enemy(width-250, height-90,50,50,enemyImage);
+  enemy1 = new Enemy(width-250, height-90,60,60,enemyImage);
 
   // Right box Obstacle
   box2 = new Obstacle(width-150,height-80,80,80,boxWood);
@@ -61,7 +61,7 @@ function setup(){
   box3 = new Obstacle(width-350,height-125,80,80,boxWood);
 
   // Middle Enemy
-  enemy2 = new Enemy(width-250,height-125,50,50,enemyImage);
+  enemy2 = new Enemy(width-250,height-125,60,60,enemyImage);
 
   // Right box Obstacle
   box4 = new Obstacle(width-150,height-125,80,80,boxWood);
@@ -73,10 +73,10 @@ function setup(){
   box5 = new Obstacle(width-250,height-250,80,80,boxWood);
 
   // Left Rod
-  log3 = new Log(width-320, height-250,150,PI/7,logWood)
+  log3 = new Log(width-320, height-260,150,PI/7,logWood)
 
   // Right Rod
-  log4= new Log(width-180,height-250,150, -PI/7,logWood);
+  log4= new Log(width-180,height-260,150, -PI/7,logWood);
 
   // Bird Object
   bird = new Bird(270,225,50,50,birdImage);
@@ -152,7 +152,7 @@ function draw(){
   if(mouseReleased){
     
     // Vanish the enemy1
-    if(enemy1.body.speed > 2.0){
+    if(enemy1.body.speed > 10.0){
       console.log(enemy1.body.speed,"1");
       enemy2.removeFromWorld();
       setTimeout(()=>{
@@ -161,7 +161,7 @@ function draw(){
     }
 
     // Vanish the enemy2    
-    if(enemy2.body.speed > 2.0){
+    if(enemy2.body.speed > 10.0){
       console.log(enemy2.body.speed,"2");
         enemy2.removeFromWorld();
         setTimeout(()=>{
