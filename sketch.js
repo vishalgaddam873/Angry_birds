@@ -1,4 +1,4 @@
-const { Engine, World, Bodies, Body, Mouse, MouseConstraint, Constraint, Composite} = Matter;
+const { Engine, World, Bodies, Body, Mouse, MouseConstraint, Constraint, Composite, Detector} = Matter;
 const CANVAS_WIDTH = 1280,
       CANVAS_HEIGHT = 720;
 
@@ -12,13 +12,16 @@ var bgImage,groundImage, baseImage, birdImage, boxWood, logWood, enemyImage; // 
 var mConstraint;
 var slingshot;
 var platform, platformImage; // Platform object
-var slin1, sling2, slingImage1, slingImage2, slingImage3 //Sling and Catapult
+var sling1, sling2, slingImage1, slingImage2, slingImage3 //Sling and Catapult
 var pressed = false;
 var released = false;
+var bird_pos = [];
 var smokeImage;
-var bird_pos = []
-var enemy1State = "start"
-var enemy2State = "start"
+
+var enemy1State = "alive";
+var enemy2State = "alive";
+var score = 0;
+
 function preload(){
   bgImage = loadImage('sprites/bg.png');
   groundImage = loadImage('sprites/ground.png');
@@ -91,12 +94,12 @@ function setup(){
 
   const mouse = Mouse.create(canvas.elt);
   const options = {
-    mouse: mouse,
+    mouse: mouse
   }
 
   // A fix for HiDPI displays
   mouse.pixelRatio = pixelDensity();
-  mConstraint = MouseConstraint.create(engine, options);
+  mConstraint = MouseConstraint.create(engine, options)
   World.add(world, mConstraint);
 
   //Platform for catapult
@@ -104,28 +107,28 @@ function setup(){
 }
 
 
-function draw(){  
-
+function draw(){
   background(bgImage);
   Matter.Engine.update(engine);
-
+  noStroke();
+  textSize(35)
+  fill("white")
+  text("Score  " + score, width-300, 50)
   ground.show();
 
   base.show();
 
   box1.show();
-  if(enemy1State == "start"){
-  enemy1.show();
-
+  if(enemy1State === "alive"){
+    enemy1.show();
   }
   box2.show();
 
   log1.show();
 
   box3.show();
-  if(enemy2State === "start"){
-  enemy2.show();
-
+  if(enemy2State === "alive"){
+    enemy2.show();
   }
   box4.show();
 
@@ -146,56 +149,64 @@ function draw(){
       slingshot.show();
     }
   }
-  
+
   sling2.show();
 
   if(mouseReleased){
-    
-    // Vanish the enemy1
-    if(enemy1.body.speed > 10.0){
-      console.log(enemy1.body.speed,"1");
-      enemy2.removeFromWorld();
-      setTimeout(()=>{
-        enemy1State = "End"
-      },400)
-    }
-
-    // Vanish the enemy2    
-    if(enemy2.body.speed > 10.0){
-      console.log(enemy2.body.speed,"2");
-        enemy2.removeFromWorld();
-        setTimeout(()=>{
-          enemy2State = "End"
-        },400)
-       
-    }
-
     if(released == true){
-      bird_pos.push(bird.body.position);
-      var num = 20;
-      for(let i = 0; i<bird_pos.length; i++){
-          if(bird_pos[i].y > 200){
-            image(smokeImage,bird_pos[i].x-(num + 40), bird_pos[i].y-num, 10,10)
-            num+=16
-          }
+      Score();
+
+      var Groundcollision = Matter.SAT.collides(bird.body, ground.body);
+      var Log1collision =  Matter.SAT.collides(bird.body, log1.body);
+      var Log2collision =  Matter.SAT.collides(bird.body, log2.body);
+      var Log3collision =  Matter.SAT.collides(bird.body, log3.body);
+      var Basecollision =  Matter.SAT.collides(bird.body, base.body);
+      var Square1Collision = Matter.SAT.collides(bird.body, box1.body);
+      var Square3Collision = Matter.SAT.collides(bird.body, box3.body);
+
+
+      if(Groundcollision.collided === false){
+        bird_pos.push(bird.body.position);
       }
-    }
-  }
+      else if(Log1collision.collided === false){
+        bird_pos.push(bird.body.position);
+      }
+      else if(Log2collision.collided === false){
+        bird_pos.push(bird.body.position);
+      }
+      else if(Log3collision.collided === false){
+        bird_pos.push(bird.body.position);
+      }
+      else if(Basecollision.collided === false){
+        bird_pos.push(bird.body.position);
+      }
+      else if(Square1Collision.collided === false){
+        bird_pos.push(bird.body.position);
+      }
+      else if(Square3Collision.collided === false){
+        bird_pos.push(bird.body.position);
+      }
 
+      if(Groundcollision || Log1collision || Log2collision || Log3collision || Basecollision || Square1Collision || Square3Collision){
+        var num = 20;
+        for(let i = 0; i<bird_pos.length; i++){
+            if(bird_pos[i].y > 200){
+              image(smokeImage,bird_pos[i].x-(num + 40), bird_pos[i].y-num, 10,10)
+              num+=16
+            }
+        }
+      }
 
-
-  if(bird.body.position.x > 800){
-    for(let i of bird_pos){
-      image(smokeImage, bird_pos.x, bird.body.position.y, 10, 10)
     }
   }
 }
 
 function mouseReleased() {
   pressed = false;
-  released = true;
   setTimeout(() => {
     slingshot.fly();
+    released = true;
+
   }, 100);
 }
 
@@ -203,12 +214,64 @@ function mousePressed(){
   pressed = true;
 }
 
-// function keyPressed() {
-//   if (key == ' ') {
-//     World.remove(world, bird.body);
-//     bird = new Bird(270,225,50,50,birdImage);
-//     slingshot.attach(bird.body);
-//     console.log(bird.body.position.x)
-//   }
 
-// }
+
+function Score(){
+  // Vanish the enemy1
+  if(enemy1.body.speed > 10.0 && enemy1State === "alive"){
+    console.log(enemy1.body.speed,"1");
+    enemy1.removeFromWorld();
+    setTimeout(()=>{
+      enemy1State = "vanish";
+    },400)
+  }
+
+  if(score < 1000 && enemy1State === "vanish"){
+    while(true){
+      score+=5
+      if(score===1000){
+        enemy1State = "dead";
+      }
+      break
+    }
+  }
+  else if((score >=1000 && score < 2000) && enemy1State === "vanish"){
+    while(true){
+      score+=5
+      if(score === 2000){
+        enemy2State  = "dead"
+      }
+      break
+    }
+  }
+
+
+  // Vanish the enemy2
+  if(enemy2.body.speed > 10.0 && enemy2State === "alive"){
+    console.log(enemy2.body.speed,"2");
+    enemy2.removeFromWorld();
+
+    setTimeout(()=>{
+      enemy2State = "vanish";
+    },400);
+  }
+
+  if(score < 1000 && enemy2State === "vanish"){
+    while(true){
+      score+=5;
+      if(score===1000){
+        enemy2State = "dead"
+      }
+      break
+    }
+  }
+  else if((score >=1000 && score < 2000) && enemy2State === "vanish"){
+    while(true){
+      score+=5;
+      if(score === 2000){
+        enemy2State === "dead"
+      }
+      break
+    }
+  }
+}
