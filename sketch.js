@@ -15,12 +15,20 @@ var platform, platformImage; // Platform object
 var sling1, sling2, slingImage1, slingImage2, slingImage3 //Sling and Catapult
 var pressed = false;
 var released = false;
+
 var bird_pos = [];
+var birdState = "fly"
 var smokeImage;
 
 var enemy1State = "alive";
 var enemy2State = "alive";
 var score = 0;
+
+var time, timezone;
+//Change location and continent here
+var continent = "Asia"
+var area = "Kolkata"
+var bgColor;
 
 function preload(){
   bgImage = loadImage('sprites/bg.png');
@@ -35,6 +43,13 @@ function preload(){
   slingImage2 = loadImage('sprites/sling2.png');
   slingImage3 = loadImage('sprites/sling3.png');
   smokeImage = loadImage('sprites/smoke.png');
+
+  let url = "http://worldtimeapi.org/api/timezone/" + continent + "/" + area;
+  httpGet(url, true, function(response) {
+      timezone = JSON.parse(response);
+      time = timezone.datetime.slice(11,13)
+      time = parseInt(time)
+  });
 }
 
 function setup(){
@@ -104,16 +119,19 @@ function setup(){
 
   //Platform for catapult
   platform = new Platform(100, 545, 400,300,platformImage);
+
 }
 
 
 function draw(){
-  background(bgImage);
+  changeBg()
+  background(bgColor);
   Matter.Engine.update(engine);
   noStroke();
   textSize(35)
   fill("white")
   text("Score  " + score, width-300, 50)
+
   ground.show();
 
   base.show();
@@ -155,7 +173,9 @@ function draw(){
   if(mouseReleased){
     if(released == true){
       Score();
-
+      if(birdState === "fly"){
+        bird_pos.push(bird.body.position)
+      }
       var Groundcollision = Matter.SAT.collides(bird.body, ground.body);
       var Log1collision =  Matter.SAT.collides(bird.body, log1.body);
       var Log2collision =  Matter.SAT.collides(bird.body, log2.body);
@@ -164,30 +184,29 @@ function draw(){
       var Square1Collision = Matter.SAT.collides(bird.body, box1.body);
       var Square3Collision = Matter.SAT.collides(bird.body, box3.body);
 
+      if(Groundcollision.collided){
+        birdState = "land";
+      }
+      else if(Log1collision.collided){
+        birdState = "land";
+      }
+      else if(Log2collision.collided){
+        birdState = "land"
+      }
+      else if(Log3collision.collided){
+        birdState = "land";
+      }
+      else if(Basecollision.collided){
+        birdState = "land";
+      }
+      else if(Square1Collision.collided){
+        birdState = "land";
+      }
+      else if(Square3Collision.collided){
+        birdState = "land";
+      }
 
-      if(Groundcollision.collided === false){
-        bird_pos.push(bird.body.position);
-      }
-      else if(Log1collision.collided === false){
-        bird_pos.push(bird.body.position);
-      }
-      else if(Log2collision.collided === false){
-        bird_pos.push(bird.body.position);
-      }
-      else if(Log3collision.collided === false){
-        bird_pos.push(bird.body.position);
-      }
-      else if(Basecollision.collided === false){
-        bird_pos.push(bird.body.position);
-      }
-      else if(Square1Collision.collided === false){
-        bird_pos.push(bird.body.position);
-      }
-      else if(Square3Collision.collided === false){
-        bird_pos.push(bird.body.position);
-      }
-
-      if(Groundcollision || Log1collision || Log2collision || Log3collision || Basecollision || Square1Collision || Square3Collision){
+      if(birdState === "land"){
         var num = 20;
         for(let i = 0; i<bird_pos.length; i++){
             if(bird_pos[i].y > 200){
@@ -195,10 +214,13 @@ function draw(){
               num+=16
             }
         }
+        birdSate = "done"
       }
 
     }
   }
+
+
 }
 
 function mouseReleased() {
@@ -273,5 +295,24 @@ function Score(){
       }
       break
     }
+  }
+}
+
+
+function changeBg(){
+  if(time >= 1 && time <= 4){
+    bgColor = "green";
+  }
+  else if(time >=5 && time <= 11){
+    bgColor = "orange";
+  }
+  else if(time >= 12 && time <= 16){
+    bgColor = "blue";
+  }
+  else if(time >=17 && time <=20){
+    bgColor = "yellow";
+  }
+  else if(time >=21 && time <=24){
+    bgColor = "red";
   }
 }
