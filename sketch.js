@@ -43,12 +43,6 @@ function preload(){
   slingImage2 = loadImage('sprites/sling2.png');
   slingImage3 = loadImage('sprites/sling3.png');
   smokeImage = loadImage('sprites/smoke.png');
-}
-
-function setup(){
-  const canvas =  createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-  engine = Engine.create();
-  world = engine.world;
 
   let url = "http://worldtimeapi.org/api/timezone/" + continent + "/" + area;
   httpGet(url, true, function(response) {
@@ -56,7 +50,12 @@ function setup(){
       time = timezone.datetime.slice(11,13)
       time = parseInt(time)
   });
-
+}
+function setup(){
+  const canvas =  createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+  engine = Engine.create();
+  world = engine.world;
+  
   // Ground object
   ground = new Ground(width/2, height, width, 50, groundImage);
 
