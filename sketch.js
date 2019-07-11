@@ -28,7 +28,7 @@ var time, timezone;
 //Change location and continent here
 var continent = "Asia"
 var area = "Kolkata"
-var bgColor;
+var bgColor = "white"
 
 function preload(){
   bgImage = loadImage('sprites/bg.png');
@@ -43,6 +43,12 @@ function preload(){
   slingImage2 = loadImage('sprites/sling2.png');
   slingImage3 = loadImage('sprites/sling3.png');
   smokeImage = loadImage('sprites/smoke.png');
+}
+
+function setup(){
+  const canvas =  createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+  engine = Engine.create();
+  world = engine.world;
 
   let url = "http://worldtimeapi.org/api/timezone/" + continent + "/" + area;
   httpGet(url, true, function(response) {
@@ -50,12 +56,6 @@ function preload(){
       time = timezone.datetime.slice(11,13)
       time = parseInt(time)
   });
-}
-
-function setup(){
-  const canvas =  createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-  engine = Engine.create();
-  world = engine.world;
 
   // Ground object
   ground = new Ground(width/2, height, width, 50, groundImage);
@@ -301,18 +301,18 @@ function Score(){
 
 function changeBg(){
   if(time >= 1 && time <= 4){
-    bgColor = "green";
+    bgColor = "green"; // Midnight
   }
   else if(time >=5 && time <= 11){
-    bgColor = "orange";
+    bgColor = "orange"; // Morning
   }
   else if(time >= 12 && time <= 16){
-    bgColor = "blue";
+    bgColor = "blue"; // Afternoon
   }
   else if(time >=17 && time <=20){
-    bgColor = "yellow";
+    bgColor = "yellow"; // evening
   }
   else if(time >=21 && time <=24){
-    bgColor = "red";
+    bgColor = "red"; //night
   }
 }
