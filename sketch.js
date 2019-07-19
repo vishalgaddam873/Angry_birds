@@ -124,7 +124,8 @@ function setup(){
 
 function draw(){
   changeBg()
-  background(bgColor);
+//   background(bgColor);
+  background(bgImage);
   Matter.Engine.update(engine);
   noStroke();
   textSize(35)
